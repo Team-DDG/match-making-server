@@ -1,0 +1,23 @@
+name: Docker Production
+on:
+  push:
+    branches:
+      - master
+env:
+  VERSION: $(node -e "console.log(require('./package.json').version)")
+  IMAGE_NAME: deadeokdevelopergroup/match-making-server
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Authenticating Docker repositry
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_TOKEN }}
+      - name: Build Docker Image
+        run: docker build . --file Dockerfile --tag ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+      - name: Push Docker Image
+        run: docker push ${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+      - name: Tag Docker Image with Latest
+        run: docker tag ${{ env.IMAGE_NAME }}:${{ env.VERSION }} ${{ env.IMAGE_NAME }}:latest
+      - name: Push Docker Image tagged Latest
+        run: docker push ${{ env.IMAGE_NAME }}:latest
