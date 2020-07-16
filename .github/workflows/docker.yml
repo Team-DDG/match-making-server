@@ -7,7 +7,7 @@ env:
   VERSION: $(node -e "console.log(require('./package.json').version)")
   IMAGE_NAME: deadeokdevelopergroup/match-making-server
 jobs:
-  build_and_deploy:
+  upload:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
