@@ -1,0 +1,51 @@
+name: Node.js
+on: [push]
+
+env:
+  CI: true
+  DB_TYPE: mariadb
+  DB_URL: mysql://root:password@0.0.0.0:3307/test
+  ENCRYPTION: sha512
+  FIREBASE_ADMIN_CLIENT_EMAIL: ${{ secrets.FIREBASE_ADMIN_CLIENT_EMAIL }}
+  FIREBASE_ADMIN_PRIVATE_KEY: ${{ secrets.FIREBASE_ADMIN_PRIVATE_KEY }}
+  FIREBASE_ADMIN_PROJECT_ID: ${{ secrets.FIREBASE_ADMIN_PROJECT_ID }}
+  FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+  FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+  FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+  FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+  FIREBASE_ID: ${{ secrets.FIREBA SE_ID }}
+  FIREBASE_PW: ${{ secrets.FIREBASE_PW }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: use node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: use mariadb 10
+        uses: getong/mariadb-action@v1.1
+        with:
+          container port: 3307
+          host port: 3307
+          mysql root password: password
+          mysql database: test
+      - name: cache node modules
+        uses: actions/cache@v1
+        with:
+          path: node_modules
+          key: ${{ runner.OS }}-build-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.OS }}-test-${{ matrix.node-version }}-${{ env.cache-name }}-
+            ${{ runner.OS }}-test-${{ matrix.node-version }}-
+            ${{ runner.OS }}-test-
+            ${{ runner.OS }}-
+      - name: yarn install
+        run: yarn
+      - name: test
+        run: yarn test
