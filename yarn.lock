@@ -1464,11 +1464,6 @@
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
 
-Blob@^0.10.0:
-  version "0.10.0"
-  resolved "https://registry.yarnpkg.com/Blob/-/Blob-0.10.0.tgz#485a6d9d54fd4dd74253e0c60af86fc66621e9df"
-  integrity sha1-SFptnVT9TddCU+DGCvhvxmYh6d8=
-
 abab@^2.0.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.3.tgz#623e2075e02eb2d3f2475e49f99c91846467907a"
