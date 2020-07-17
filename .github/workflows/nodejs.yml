@@ -24,18 +24,18 @@ jobs:
         node-version: [14.x]
     steps:
       - uses: actions/checkout@v1
-      - name: use node.js ${{ matrix.node-version }}
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: use mariadb 10
+      - name: Use Mariadb 10.x
         uses: getong/mariadb-action@v1.1
         with:
           container port: 3307
           host port: 3307
           mysql root password: password
           mysql database: test
-      - name: cache node modules
+      - name: Cache Node Modules
         uses: actions/cache@v1
         with:
           path: node_modules
@@ -45,7 +45,7 @@ jobs:
             ${{ runner.OS }}-test-${{ matrix.node-version }}-
             ${{ runner.OS }}-test-
             ${{ runner.OS }}-
-      - name: yarn install
+      - name: Build
         run: yarn
-      - name: test
+      - name: Test
         run: yarn test
