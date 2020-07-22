@@ -49,6 +49,15 @@
       "sourceRoot": "libs/event/src",
       "type": "library"
     },
+    "keyword": {
+      "compilerOptions": {
+        "tsConfigPath": "libs/keyword/tsconfig.lib.json"
+      },
+      "entryFile": "index",
+      "root": "libs/keyword",
+      "sourceRoot": "libs/keyword/src",
+      "type": "library"
+    },
     "lol": {
       "compilerOptions": {
         "tsConfigPath": "libs/lol/tsconfig.lib.json"
@@ -119,15 +128,6 @@
       "entryFile": "index",
       "root": "libs/user",
       "sourceRoot": "libs/user/src",
-      "type": "library"
-    },
-    "util": {
-      "compilerOptions": {
-        "tsConfigPath": "libs/util/tsconfig.lib.json"
-      },
-      "entryFile": "index",
-      "root": "libs/util",
-      "sourceRoot": "libs/util/src",
       "type": "library"
     }
   },

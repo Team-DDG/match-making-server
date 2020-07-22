@@ -18,8 +18,8 @@ export class AppController {
   @Get('/authorization')
   @ApiBearerAuth()
   @ApiOperation({ summary: '토큰 유효성 검사' })
-  @ApiOkResponse()
-  @ApiUnauthorizedResponse()
+  @ApiOkResponse({ description: 'success' })
+  @ApiUnauthorizedResponse({ description: 'token has expired or is invalid' })
   public async getAuthorization(@Headers() { authorization }: HeaderClass): Promise<void> {
     await this.authService.validateToken(authorization);
   }

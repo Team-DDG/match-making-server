@@ -2,7 +2,7 @@ import { AuthModule, AuthService } from '@app/auth';
 import { config } from '@app/config';
 import { entities, GenderEnum } from '@app/entity';
 import { TestUtilModule, TestUtilService } from '@app/test-util';
-import { SignUpDto } from '@app/type';
+import { PostUserDto } from '@app/type';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getConnection } from 'typeorm';
@@ -12,13 +12,10 @@ import { UserService } from './user.service';
 describe('UserService', () => {
   let authService: AuthService;
   let testUtilService: TestUtilService;
-  const testUser: SignUpDto = {
-    birthday: new Date().toISOString().slice(0, 10),
+  const testUser: PostUserDto = {
     email: config.FIREBASE_ID,
     gender: GenderEnum.MALE,
-    name: 'test',
-    password: config.FIREBASE_PW,
-    phone: '01012345678',
+    keywords: [1, 2],
     playableEndTime: '00:00',
     playableStartTime: '12:00',
   };

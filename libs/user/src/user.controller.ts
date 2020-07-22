@@ -1,6 +1,6 @@
 import { AuthService } from '@app/auth';
-import { HeaderClass, SignUpDto } from '@app/type';
-import { Body, Controller, Delete, Headers, Inject, Post, ValidationPipe } from '@nestjs/common';
+import { GetUserRes, HeaderClass, PostUserDto } from '@app/type';
+import { Body, Controller, Delete, Get, Headers, Inject, Post, ValidationPipe } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiConflictResponse,
@@ -21,25 +21,34 @@ export class UserController {
   @Inject()
   private readonly authService: AuthService;
 
-  @Post()
-  @ApiBearerAuth()
-  @ApiOperation({ summary: '회원 가입' })
-  @ApiCreatedResponse()
-  @ApiConflictResponse({ description: 'name | email' })
-  @ApiUnauthorizedResponse()
-  public async postUser(
-    @Headers() { authorization }: HeaderClass,
-    @Body(new ValidationPipe()) payload: SignUpDto,
-  ): Promise<void> {
-    return this.userService.postUser(await this.authService.validateToken(authorization), payload);
-  }
-
   @Delete()
   @ApiBearerAuth()
   @ApiOperation({ summary: '회원 탈퇴' })
-  @ApiOkResponse()
-  @ApiUnauthorizedResponse()
+  @ApiOkResponse({ description: 'success' })
+  @ApiUnauthorizedResponse({ description: 'token has expired or is invalid' })
   public async deleteUser(@Headers() { authorization }: HeaderClass): Promise<void> {
     return this.userService.deleteUser(await this.authService.validateToken(authorization));
+  }
+
+  @Get()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '유저 정보 조회' })
+  @ApiOkResponse({ description: 'success', type: GetUserRes })
+  @ApiUnauthorizedResponse({ description: 'token has expired or is invalid' })
+  public async getUser(@Headers() { authorization }: HeaderClass): Promise<GetUserRes> {
+    return this.userService.getUser(await this.authService.validateToken(authorization));
+  }
+
+  @Post()
+  @ApiBearerAuth()
+  @ApiOperation({ summary: '회원 가입' })
+  @ApiCreatedResponse({ description: 'success' })
+  @ApiConflictResponse({ description: 'email already exists' })
+  @ApiUnauthorizedResponse({ description: 'token has expired or is invalid' })
+  public async postUser(
+    @Headers() { authorization }: HeaderClass,
+    @Body(new ValidationPipe()) payload: PostUserDto,
+  ): Promise<void> {
+    return this.userService.postUser(await this.authService.validateToken(authorization), payload);
   }
 }

@@ -10,6 +10,7 @@ export class AuthService {
     if (!bearerRegExp.test(token)) {
       throw new UnauthorizedException();
     }
+
     try {
       const parsedToken: admin.auth.DecodedIdToken = await admin.auth().verifyIdToken(token.split(' ')[1]);
       return parsedToken.sub;
