@@ -15,7 +15,6 @@ describe('UserService', () => {
   const testUser: PostUserDto = {
     email: config.FIREBASE_ID,
     gender: GenderEnum.MALE,
-    keywords: [1, 2],
     playableEndTime: '00:00',
     playableStartTime: '12:00',
   };
