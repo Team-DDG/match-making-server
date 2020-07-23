@@ -69,10 +69,12 @@ export class UserService {
 
     await this.userRepo.insert(user);
 
-    await Promise.all(keywordIds.map(async (e: number) => {
-      const userKeyword: UserKeyword = new UserKeyword();
-      Object.assign(userKeyword, { keywordId: e, userId: id });
-      return this.userKeywordRepo.insert(userKeyword);
-    }));
+    if (keywordIds) {
+      await Promise.all(keywordIds.map(async (e: number) => {
+        const userKeyword: UserKeyword = new UserKeyword();
+        Object.assign(userKeyword, { keywordId: e, userId: id });
+        return this.userKeywordRepo.insert(userKeyword);
+      }));
+    }
   }
 }
