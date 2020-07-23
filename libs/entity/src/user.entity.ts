@@ -14,6 +14,8 @@ export class User {
   public playableEndTime: string;
   @Column()
   public playableStartTime: string;
+  @Column({ nullable: true })
+  public summonerName: string;
   @OneToMany(
     () => UserKeyword,
     (userKeyword: UserKeyword) => userKeyword.user,

@@ -1,7 +1,6 @@
-import { AuthService } from '@app/auth';
 import { Keyword, User, UserKeyword } from '@app/entity';
-import { GetKeywordRes, GetUserRes, PostUserDto } from '@app/type';
-import { ConflictException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { GetKeywordRes, GetUserRes, PostUserDto, PostUserSummonerNameDto } from '@app/type';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 
@@ -13,8 +12,6 @@ export class UserService {
   private readonly KeywordRepo: Repository<Keyword>;
   @InjectRepository(UserKeyword)
   private readonly userKeywordRepo: Repository<UserKeyword>;
-  @Inject()
-  private readonly authService: AuthService;
 
   public async deleteUser(id: string): Promise<void> {
     const numOfUser: number = await this.userRepo.count({ id });
@@ -43,6 +40,8 @@ export class UserService {
     });
     if (!foundUser) {
       throw new NotFoundException();
+    } else if (!foundUser.summonerName) {
+      throw new NotFoundException('summonerName');
     }
     ['id'].forEach((e: string) => Reflect.deleteProperty(foundUser, e));
 
@@ -76,5 +75,21 @@ export class UserService {
         return this.userKeywordRepo.insert(userKeyword);
       }));
     }
+  }
+
+  public async patchUserSummonerName(id: string, payload: PostUserSummonerNameDto): Promise<void> {
+    let numOfUser: number = await this.userRepo.count({ id });
+
+    if (1 > numOfUser) {
+      throw new NotFoundException();
+    }
+
+    numOfUser = await this.userRepo.count(payload);
+
+    if (0 < numOfUser) {
+      throw new ConflictException();
+    }
+
+    await this.userRepo.update(id, payload);
   }
 }
