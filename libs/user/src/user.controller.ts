@@ -5,6 +5,7 @@ import {
   ApiBearerAuth,
   ApiConflictResponse,
   ApiCreatedResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -34,6 +35,7 @@ export class UserController {
   @ApiOperation({ summary: '유저 정보 조회' })
   @ApiOkResponse({ description: 'success', type: GetUserRes })
   @ApiUnauthorizedResponse({ description: 'token has expired or is invalid' })
+  @ApiNotFoundResponse({ description: 'summonerName is null' })
   public async getUser(@Headers() { authorization }: HeaderClass): Promise<GetUserRes> {
     return this.userService.getUser(await this.authService.validateToken(authorization));
   }
