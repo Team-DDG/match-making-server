@@ -31,15 +31,6 @@
       "sourceRoot": "libs/entity/src",
       "type": "library"
     },
-    "keyword": {
-      "compilerOptions": {
-        "tsConfigPath": "libs/keyword/tsconfig.lib.json"
-      },
-      "entryFile": "index",
-      "root": "libs/keyword",
-      "sourceRoot": "libs/keyword/src",
-      "type": "library"
-    },
     "lol": {
       "compilerOptions": {
         "tsConfigPath": "libs/lol/tsconfig.lib.json"
