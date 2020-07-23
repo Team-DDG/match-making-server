@@ -31,9 +31,6 @@
       ],
       "@app/user": [
         "libs/user/src"
-      ],
-      "@app/keyword": [
-        "libs/keyword/src"
       ]
     },
     "removeComments": true,

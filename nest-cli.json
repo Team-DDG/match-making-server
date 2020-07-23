@@ -22,15 +22,6 @@
       "sourceRoot": "libs/config/src",
       "type": "library"
     },
-    "coupon": {
-      "compilerOptions": {
-        "tsConfigPath": "libs/coupon/tsconfig.lib.json"
-      },
-      "entryFile": "index",
-      "root": "libs/coupon",
-      "sourceRoot": "libs/coupon/src",
-      "type": "library"
-    },
     "entity": {
       "compilerOptions": {
         "tsConfigPath": "libs/entity/tsconfig.lib.json"
@@ -38,15 +29,6 @@
       "entryFile": "index",
       "root": "libs/entity",
       "sourceRoot": "libs/entity/src",
-      "type": "library"
-    },
-    "event": {
-      "compilerOptions": {
-        "tsConfigPath": "libs/event/tsconfig.lib.json"
-      },
-      "entryFile": "index",
-      "root": "libs/event",
-      "sourceRoot": "libs/event/src",
       "type": "library"
     },
     "keyword": {
@@ -65,42 +47,6 @@
       "entryFile": "index",
       "root": "libs/lol",
       "sourceRoot": "libs/lol/src",
-      "type": "library"
-    },
-    "menu": {
-      "compilerOptions": {
-        "tsConfigPath": "libs/menu/tsconfig.lib.json"
-      },
-      "entryFile": "index",
-      "root": "libs/menu",
-      "sourceRoot": "libs/menu/src",
-      "type": "library"
-    },
-    "order": {
-      "compilerOptions": {
-        "tsConfigPath": "libs/order/tsconfig.lib.json"
-      },
-      "entryFile": "index",
-      "root": "libs/order",
-      "sourceRoot": "libs/order/src",
-      "type": "library"
-    },
-    "restaurant": {
-      "compilerOptions": {
-        "tsConfigPath": "libs/restaurant/tsconfig.lib.json"
-      },
-      "entryFile": "index",
-      "root": "libs/restaurant",
-      "sourceRoot": "libs/restaurant/src",
-      "type": "library"
-    },
-    "review": {
-      "compilerOptions": {
-        "tsConfigPath": "libs/review/tsconfig.lib.json"
-      },
-      "entryFile": "index",
-      "root": "libs/review",
-      "sourceRoot": "libs/review/src",
       "type": "library"
     },
     "test-util": {
