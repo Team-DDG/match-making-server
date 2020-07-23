@@ -1,6 +1,5 @@
 import { AuthService } from '@app/auth';
 import { GetKeywordRes, GetUserRes } from '@app/type';
-import { UserService } from '@app/user';
 import { Controller, Get, Inject } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -18,8 +17,6 @@ export class KeywordController {
   private readonly authService: AuthService;
   @Inject()
   private readonly keywordService: KeywordService;
-  @Inject()
-  private readonly userService: UserService;
 
   @Get()
   @ApiBearerAuth()
