@@ -16,9 +16,9 @@ import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
   @Inject()
-  private readonly userService: UserService;
-  @Inject()
   private readonly authService: AuthService;
+  @Inject()
+  private readonly userService: UserService;
 
   @Delete()
   @ApiBearerAuth()

@@ -1,5 +1,5 @@
 import { Keyword, User, UserKeyword } from '@app/entity';
-import { GetKeywordRes, GetUserRes, PostUserDto, PostUserSummonerNameDto } from '@app/type';
+import { GetUserKeywordRes, GetUserRes, PostUserDto, PostUserSummonerNameDto } from '@app/type';
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
@@ -47,8 +47,8 @@ export class UserService {
 
     return {
       ...foundUser,
-      keywords: foundUser.keywords.map((e: UserKeyword): GetKeywordRes => {
-        const keywordRes: GetKeywordRes = new GetKeywordRes();
+      keywords: foundUser.keywords.map((e: UserKeyword): GetUserKeywordRes => {
+        const keywordRes: GetUserKeywordRes = new GetUserKeywordRes();
         Object.assign(keywordRes, { keyword: e.keyword.keyword, size: e.size });
         return keywordRes;
       }),

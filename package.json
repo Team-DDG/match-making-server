@@ -62,6 +62,8 @@
       "@app/config/(.*)": "<rootDir>/libs/config/src/$1",
       "@app/entity": "<rootDir>/libs/entity/src",
       "@app/entity/(.*)": "<rootDir>/libs/entity/src/$1",
+      "@app/keyword": "<rootDir>/libs/keyword/src",
+      "@app/keyword/(.*)": "<rootDir>/libs/keyword/src/$1",
       "@app/lol": "<rootDir>/libs/lol/src",
       "@app/lol/(.*)": "<rootDir>/libs/lol/src/$1",
       "@app/test-util": "<rootDir>/libs/test-util/src",

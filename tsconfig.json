@@ -20,6 +20,9 @@
       "@app/entity": [
         "libs/entity/src"
       ],
+      "@app/keyword": [
+        "libs/keyword/src"
+      ],
       "@app/lol": [
         "libs/lol/src"
       ],
