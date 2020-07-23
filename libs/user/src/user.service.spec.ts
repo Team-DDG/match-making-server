@@ -2,7 +2,7 @@ import { AuthModule, AuthService } from '@app/auth';
 import { config } from '@app/config';
 import { entities, GenderEnum } from '@app/entity';
 import { TestUtilModule, TestUtilService } from '@app/test-util';
-import { PostUserDto } from '@app/type';
+import { GetUserRes, PostUserDto } from '@app/type';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getConnection } from 'typeorm';
@@ -19,8 +19,8 @@ describe('UserService', () => {
     playableEndTime: '00:00',
     playableStartTime: '12:00',
   };
+  let testUserId: string;
   let userService: UserService;
-  let token: string;
 
 
   beforeAll(async () => {
@@ -37,16 +37,21 @@ describe('UserService', () => {
     testUtilService = module.get<TestUtilService>(TestUtilService);
     userService = module.get<UserService>(UserService);
 
-    token = `Bearer ${await testUtilService.makeToken(config.FIREBASE_ID, config.FIREBASE_PW)}`;
+    const token: string = `Bearer ${await testUtilService.makeToken(config.FIREBASE_ID, config.FIREBASE_PW)}`;
+    testUserId = await authService.validateToken(token);
+    await userService.postUser(testUserId, testUser);
   });
 
   afterAll(async () => {
+    await userService.deleteUser(testUserId);
     await getConnection().close();
   });
 
-  it('should success postUser and deleteUser', async () => {
-    const id: string = await authService.validateToken(token);
-    await userService.postUser(id, testUser);
-    await userService.deleteUser(id);
+  it('should success getUser', async () => {
+    const resUser: GetUserRes = await userService.getUser(testUserId);
+
+    const [req, res] = testUtilService.makeElementComparable(testUser, resUser, ['keywords']);
+
+    expect(req).toEqual(res);
   });
 });
