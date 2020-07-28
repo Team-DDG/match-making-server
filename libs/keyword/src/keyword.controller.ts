@@ -1,5 +1,5 @@
 import { AuthService } from '@app/auth';
-import { GetKeywordRes, GetUserRes } from '@app/type';
+import { GetKeywordRes } from '@app/type';
 import { Controller, Get, Inject } from '@nestjs/common';
 import {
   ApiBearerAuth,
@@ -20,8 +20,8 @@ export class KeywordController {
 
   @Get()
   @ApiBearerAuth()
-  @ApiOperation({ summary: '유저 정보 조회' })
-  @ApiOkResponse({ description: 'success', type: GetUserRes })
+  @ApiOperation({ summary: '키워드 목록 조회' })
+  @ApiOkResponse({ description: 'success', type: GetKeywordRes })
   @ApiUnauthorizedResponse({ description: 'token has expired or is invalid' })
   public async getKeyword(): Promise<GetKeywordRes[]> {
     return this.keywordService.getKeyword();
