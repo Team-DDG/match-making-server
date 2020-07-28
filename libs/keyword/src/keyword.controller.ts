@@ -21,7 +21,7 @@ export class KeywordController {
   @Get()
   @ApiBearerAuth()
   @ApiOperation({ summary: '키워드 목록 조회' })
-  @ApiOkResponse({ description: 'success', type: GetKeywordRes })
+  @ApiOkResponse({ description: 'success', type: [GetKeywordRes] })
   @ApiUnauthorizedResponse({ description: 'token has expired or is invalid' })
   public async getKeyword(): Promise<GetKeywordRes[]> {
     return this.keywordService.getKeyword();
