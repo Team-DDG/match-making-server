@@ -3,17 +3,17 @@ import { GetMostRes } from './get-most.res';
 import { GetRankRes } from './get-rank.res';
 
 export class GetLolRes {
-  @ApiProperty()
+  @ApiProperty({ nullable: true })
   public evaluation: string;
-  @ApiProperty({ type: GetRankRes })
-  public flexRank: GetRankRes;
+  @ApiProperty({ nullable: true, type: GetRankRes })
+  public flexRank?: GetRankRes;
   @ApiProperty()
   public icon: string;
   @ApiProperty()
   public level: number;
-  @ApiProperty({ type: [GetMostRes] })
+  @ApiProperty({ nullable: true, type: [GetMostRes] })
   public mosts: GetMostRes[];
-  @ApiProperty({ type: GetRankRes })
+  @ApiProperty({ nullable: true, type: GetRankRes })
   public soloRank: GetRankRes;
   @ApiProperty()
   public summonerName: string;
