@@ -1,5 +1,5 @@
 import { Keyword, User, UserKeyword } from '@app/entity';
-import { GetUserKeywordRes, GetUserRes, PostUserDto, PostUserSummonerNameDto } from '@app/type';
+import { GetUserKeywordRes, GetUserRes, PostUserDto } from '@app/type';
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
@@ -75,21 +75,5 @@ export class UserService {
         return this.userKeywordRepo.insert(userKeyword);
       }));
     }
-  }
-
-  public async patchUserSummonerName(id: string, payload: PostUserSummonerNameDto): Promise<void> {
-    let numOfUser: number = await this.userRepo.count({ id });
-
-    if (1 > numOfUser) {
-      throw new NotFoundException();
-    }
-
-    numOfUser = await this.userRepo.count(payload);
-
-    if (0 < numOfUser) {
-      throw new ConflictException();
-    }
-
-    await this.userRepo.update(id, payload);
   }
 }

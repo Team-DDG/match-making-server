@@ -1,6 +1,6 @@
 import { User } from '@app/entity';
-import { GetLolRes } from '@app/type';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { GetLolRes, PatchUserLolDto } from '@app/type';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as axios from 'axios';
 import { AxiosResponse } from 'axios';
@@ -11,23 +11,20 @@ import { Repository } from 'typeorm';
 export class LolService {
   @InjectRepository(User)
   private readonly userRepo: Repository<User>;
-  private readonly champion: {};
 
-  public constructor() {
-    this.champion = {};
-  }
+  public async getLol(param: string, isParamId: boolean): Promise<GetLolRes> {
 
-  public async getUserLol(query: string): Promise<GetLolRes> {
+    const summonerName: string = isParamId ? (await this.userRepo.findOne(param)).summonerName : param;
 
     const { data: summonerData }: AxiosResponse = await axios.default
-      .get(encodeURI(`https://www.op.gg/summoner/userName=${query}?l=ko_KR`), {
+      .get(encodeURI(`https://www.op.gg/summoner/userName=${summonerName}?l=ko_KR`), {
         headers: { 'User-Agent': 'Mozilla/5.0' },
       });
 
     const root: Node = parse(summonerData).childNodes[2].childNodes[4].childNodes[1]
       .childNodes[4].childNodes[1].childNodes[1];
 
-    if(root.childNodes[1]['classNames'][0] === 'Title') {
+    if (root.childNodes[1]['classNames'][0] === 'Title') {
       throw new NotFoundException();
     }
 
@@ -49,11 +46,15 @@ export class LolService {
 
     // level
 
-    if (header.childNodes[3]['rawAttrs'].split('"')[1] === 'Face') {
-      res.level = parseInt(header.childNodes[3].childNodes[1].childNodes[3].childNodes[0].rawText);
-    } else {
-      res.level = parseInt(header.childNodes[5].childNodes[1].childNodes[5].childNodes[0].rawText);
-    }
+    header.childNodes.forEach((e: Node) => {
+      if (e['classNames'] && e['classNames'][0] === 'Face') {
+        e.childNodes[1].childNodes.forEach((e_2: Node) => {
+          if (e_2['classNames'] && e_2['classNames'][0] === 'Level') {
+            res.level = parseInt(e_2.childNodes[0].rawText);
+          }
+        });
+      }
+    });
 
     // mosts
 
@@ -102,7 +103,11 @@ export class LolService {
 
     header.childNodes.forEach((e: Node) => {
       if (e['classNames'] && e['classNames'][0] === 'Profile') {
-        res.summonerName = e.childNodes[1].childNodes[1].childNodes[0].rawText;
+        e.childNodes[1].childNodes.forEach((e_2: Node) => {
+          if (e_2['classNames'] && e_2['classNames'][0] === 'Name') {
+            res.summonerName = e_2.childNodes[0].rawText;
+          }
+        });
       }
     });
 
@@ -119,5 +124,21 @@ export class LolService {
     }
 
     return res;
+  }
+
+  public async patchUserLol(id: string, payload: PatchUserLolDto): Promise<void> {
+    let numOfUser: number = await this.userRepo.count({ id });
+
+    if (1 > numOfUser) {
+      throw new NotFoundException();
+    }
+
+    numOfUser = await this.userRepo.count(payload);
+
+    if (0 < numOfUser) {
+      throw new ConflictException();
+    }
+
+    await this.userRepo.update(id, payload);
   }
 }

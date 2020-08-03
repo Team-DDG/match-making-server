@@ -2,13 +2,13 @@ import { AuthModule, AuthService } from '@app/auth';
 import { config } from '@app/config';
 import { entities, GenderEnum } from '@app/entity';
 import { KeywordModule, KeywordService } from '@app/keyword';
+import { LolModule, LolService } from '@app/lol';
 import { TestUtilModule, TestUtilService } from '@app/test-util';
 import {
   GetKeywordRes,
   GetUserKeywordRes,
-  GetUserRes,
+  GetUserRes, PatchUserLolDto,
   PostUserDto,
-  PostUserSummonerNameDto,
 } from '@app/type';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -18,6 +18,7 @@ import { UserService } from './user.service';
 
 describe('UserService', () => {
   let authService: AuthService;
+  let lolService: LolService;
   let keywordService: KeywordService;
   const testKeywords: string[] = ['test', 'test_2'];
   let testUtilService: TestUtilService;
@@ -27,7 +28,7 @@ describe('UserService', () => {
     playableEndTime: '00:00',
     playableStartTime: '12:00',
   };
-  const testUserSummonerName: PostUserSummonerNameDto = {
+  const testUserSummonerName: PatchUserLolDto = {
     summonerName: 'test',
   };
   let testUserId: string;
@@ -37,7 +38,7 @@ describe('UserService', () => {
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [
-        AuthModule, KeywordModule, TestUtilModule,
+        AuthModule, LolModule, KeywordModule, TestUtilModule,
         TypeOrmModule.forRoot(config.ormConfig),
         TypeOrmModule.forFeature(entities),
         UserModule,
@@ -45,6 +46,7 @@ describe('UserService', () => {
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
+    lolService = module.get<LolService>(LolService);
     keywordService = module.get<KeywordService>(KeywordService);
     testUtilService = module.get<TestUtilService>(TestUtilService);
     userService = module.get<UserService>(UserService);
@@ -67,7 +69,7 @@ describe('UserService', () => {
   });
 
   it('should success getUser', async () => {
-    await userService.patchUserSummonerName(testUserId, testUserSummonerName);
+    await lolService.patchUserLol(testUserId, testUserSummonerName);
     const resUser: GetUserRes = await userService.getUser(testUserId);
 
     expect(testKeywords).toEqual(resUser.keywords.map((e: GetUserKeywordRes) => e.keyword));

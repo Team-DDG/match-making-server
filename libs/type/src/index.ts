@@ -2,7 +2,7 @@ export * from './etc/firebase-config.class';
 export * from './etc/header.class';
 
 export * from './req/post-user.dto';
-export * from './req/post-user-summoner-name.dto';
+export * from './req/patch-user-lol.dto';
 
 export * from './res/get-keyword.res';
 export * from './res/get-lol.res';
