@@ -58,25 +58,24 @@ export class LolService {
 
     // mosts
 
-    if (root.childNodes[9].childNodes[3].childNodes[1]
-      .childNodes[5]['classNames'][0] !== 'opgg__notice--left') {
-      const most: Node = root.childNodes[9].childNodes[3].childNodes[1]
-        .childNodes[5].childNodes[3].childNodes[1]
-        .childNodes[1];
-
-      most.childNodes.forEach((e: Node, i: number) => {
-        if (1 === i % 2 && i < 6) {
-          res.mosts.push({
-            evaluation: e.childNodes[5].childNodes[1].childNodes[1]
-              .childNodes[0].rawText,
-            gameCount: parseInt(e.childNodes[7].childNodes[3].childNodes[0].rawText.split(' ')[0]),
-            image: `https:${e.childNodes[1].childNodes[1].childNodes[1]['rawAttrs'].split('"')[1]}`,
-            name: e.childNodes[1]['rawAttrs'].split('"')[3].trim(),
-            winRate: parseInt(e.childNodes[7].childNodes[1].childNodes[0].rawText.trim().split('%')[0]),
-          });
-        }
-      });
-    }
+    root.childNodes[9].childNodes[3].childNodes[1]
+      .childNodes.forEach((e: Node) => {
+      if (e['classNames'] && e['classNames'][0] === 'Box') {
+        e.childNodes[3].childNodes[1].childNodes[1]
+          .childNodes.forEach((e_2: Node, i: number) => {
+          if (1 === i % 2 && i < 6) {
+            res.mosts.push({
+              evaluation: e_2.childNodes[5].childNodes[1].childNodes[1]
+                .childNodes[0].rawText,
+              gameCount: parseInt(e_2.childNodes[7].childNodes[3].childNodes[0].rawText.split(' ')[0]),
+              image: `https:${e_2.childNodes[1].childNodes[1].childNodes[1]['rawAttrs'].split('"')[1]}`,
+              name: e_2.childNodes[1]['rawAttrs'].split('"')[3].trim(),
+              winRate: parseInt(e_2.childNodes[7].childNodes[1].childNodes[0].rawText.trim().split('%')[0]),
+            });
+          }
+        });
+      }
+    });
 
     // rank
 

@@ -2,7 +2,8 @@ import { AuthService } from '@app/auth';
 import { GetLolRes, HeaderClass, PatchUserLolDto } from '@app/type';
 import { Body, Controller, Get, Headers, Inject, Patch, ValidationPipe } from '@nestjs/common';
 import {
-  ApiBearerAuth, ApiConflictResponse,
+  ApiBearerAuth,
+  ApiConflictResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,

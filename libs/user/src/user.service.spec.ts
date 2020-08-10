@@ -4,12 +4,7 @@ import { entities, GenderEnum } from '@app/entity';
 import { KeywordModule, KeywordService } from '@app/keyword';
 import { LolModule, LolService } from '@app/lol';
 import { TestUtilModule, TestUtilService } from '@app/test-util';
-import {
-  GetKeywordRes,
-  GetUserKeywordRes,
-  GetUserRes, PatchUserLolDto,
-  PostUserDto,
-} from '@app/type';
+import { GetKeywordRes, GetUserKeywordRes, GetUserRes, PatchUserLolDto, PostUserDto } from '@app/type';
 import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getConnection } from 'typeorm';
